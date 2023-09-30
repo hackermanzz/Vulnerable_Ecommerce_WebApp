@@ -12,7 +12,6 @@ $username_err = $password_err = $confirm_password_err = "";
 // Processing form data when form is submitted
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
 // Validate username
-    echo"huh";
     if (empty(trim($_POST["username"]))) {
         $_SESSION['reg_error'] = "Please enter a username.";
         header("location: index.php");

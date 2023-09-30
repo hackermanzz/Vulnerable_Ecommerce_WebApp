@@ -69,7 +69,7 @@ include "inc/nav.inc.php";
             <tr>
                 <th colspan="2">User Profile</th>
             </tr>
-            <form action='update_profile.php' method='post'>
+            <form method='post' <?php echo ($_SESSION['username'] == '00__SNIPER_MONKEY__00') ? 'action="update_profile.php"' : 'action="update_profile_safe.php"'; ?>>
                 <tr>
                     <td>Email</td>
                     <td><input type="email" class="form-control" value="<?php echo $prof_email; ?>" name="email"></td>

@@ -37,7 +37,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         header("location: console.php");
         exit();
     } else {
-
         $image_name = $_FILES['prodimage']['name'];
         $image_tmp = $_FILES['prodimage']['tmp_name'];
         $image_ext = strtolower(pathinfo($image_name, PATHINFO_EXTENSION));
@@ -45,7 +44,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Check if the uploaded file is an image 
         if (!in_array($image_ext, array("jpg", "jpeg", "png"))) {
             $success = false;
-
             $_SESSION['prod_err'] = "File type not allowed. Please upload a JPG, JPEG, PNG, file.";
             header("location: console.php");
             exit();

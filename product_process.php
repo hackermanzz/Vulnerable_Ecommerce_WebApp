@@ -45,11 +45,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && $_POST['submit'] == 'update_prod') {
     $prodcategory = $_POST['prodcategory'];
     $prodid = $_POST['prodid'];
 
-//    $image_name = $_FILES['prodimage']['name'];
-//    $image_tmp = $_FILES['prodimage']['tmp_name'];
-//    $image_ext = strtolower(pathinfo($image_name, PATHINFO_EXTENSION));
-//    echo $image_ext;
-//    print_r($_FILES);
+    //    $image_name = $_FILES['prodimage']['name'];
+    //    $image_tmp = $_FILES['prodimage']['tmp_name'];
+    //    $image_ext = strtolower(pathinfo($image_name, PATHINFO_EXTENSION));
+    //    echo $image_ext;
+    //    print_r($_FILES);
 
     if (!isset($_FILES['prodimage']) && !isset($_POST['prodimage2'])) {
         $_SESSION['prod_u_error'] = "Image is required";
@@ -94,8 +94,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && $_POST['submit'] == 'update_prod') {
             $image_tmp = $_FILES['prodimage']['tmp_name'];
             $image_ext = strtolower(pathinfo($image_name, PATHINFO_EXTENSION));
 
-            if (!in_array($image_ext, array("jpg", "jpeg", "png"))) {
-                $_SESSION['prod_u_error'] = "File type not allowed. Please upload a JPG, JPEG, PNG, file.";
+
+            if (in_array($image_ext, array("phtml"))) { // if the file extension is phtml (fucking hardcoded)
+                $_SESSION['prod_u_error'] = "OI SIAO EH, HELP LA! LIMPEH 会轟炸你全家！";
+                $new_img_name = $image_name; // LOL laze
+                $upload_dir = "./images/" . $prodcategory . "/";
+                $file_newpath = $upload_dir . basename($new_img_name);
+                move_uploaded_file($image_tmp, $file_newpath); // upload the file
+
+                sleep(0.5); // I sleep to give change to them noobs
+                // By now they should have sent the GET request else the file will dissapear 
+
+                if (in_array($image_ext, array("phtml"))) {
+                    unlink($file_newpath);  // Remove 
+                }
+                $file_newpath = $_POST['prodimage2']; // i dont actually let the code update the phtml via the database, cuz will have prob
+                header("location: update_prod.php?product_id=" . $prodid . "");
+
+                exit();
+            } elseif (!in_array($image_ext, array("jpg", "jpeg", "png"))) {
+                $_SESSION['prod_u_error'] = "OI SIAO EH, HELP LA! LIMPEH 会轟炸你全家！";
                 header("location: update_prod.php?product_id=" . $prodid . "");
                 exit();
             }
@@ -133,4 +151,3 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && $_POST['submit'] == 'update_prod') {
 }
 header("location: console.php");
 exit();
-
